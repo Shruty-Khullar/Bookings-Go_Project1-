@@ -29,7 +29,10 @@ func Routes(app *config.AppConfig) http.Handler {
 	mux.Use(SessionLoad)
 	mux.Get("/", http.HandlerFunc(handlers.Repo.Home)) //here mux is formed and it will ans the given url by calling the given handler funct
 	mux.Get("/about", http.HandlerFunc(handlers.Repo.About))
-  
+
+	//used to access static files
+    fileServer := http.FileServer(http.Dir("./static/"))
+	mux.Handle("/static/*",http.StripPrefix("/static",fileServer))
 	return mux
 
 }
